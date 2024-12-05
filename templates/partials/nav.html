@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-lg" style="background-color: #2E8B57;">
     <div class="container">
+        {% if user.is_authenticated %}
         <!-- Logo/Brand -->
         <a class="navbar-brand text-white font-weight-bold" href="{% url 'dashboard-index' %}">Stockify</a>
 
@@ -24,14 +25,31 @@
             <!-- Right-aligned Links -->
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="profile.html">
-                        Mi Cuenta
-                    </a>
-                </li>
+                    <a class="nav-link text-white" href="{% url 'user-profile' %}">{{ user.username }} Profile</a>
+                </li>}
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="#">Cerrar Sesión</a>
+                    <!-- Logout form for POST request -->
+                    <form action="{% url 'user-logout' %}" method="post" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link nav-link text-white" style="text-decoration: none;">
+                            Cerrar Sesión
+                        </button>
+                    </form>
                 </li>
             </ul>
         </div>
+        {% else %}
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Right-aligned Links for unauthenticated users -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="{% url 'user-register' %}">Registrarse</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{% url 'user-login' %}">Iniciar Sesión</a>
+                </li>
+            </ul>
+        </div>
+        {% endif %}
     </div>
 </nav>

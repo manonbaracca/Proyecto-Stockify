@@ -3,6 +3,9 @@
 
 {% block content %}
 
+{% if user.is_authenticated and user.is_staff and user.is_superuser %}
+{% include 'partials/topnav.html' %}
+
 <div class="container my-5">
     <div class="row gy-4">
         <!-- Pie Chart -->
@@ -116,5 +119,7 @@
         </div>
     </div>
 </div>
-
+{% else %}
+{% include 'dashboard/staff_index.html' %}
+{% endif %}
 {% endblock %}
